@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>装修风格筛选</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1rem 0;
+    }
+    h1 {
+      margin: 0;
+    }
+    .container {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    .result {
+      font-size: 20px;
+      color: #333;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>装修风格筛选器</h1>
+  </header>
+
+  <div class="container">
+    <h2 id="question">请选择你喜欢的风格</h2>
+
+    <div class="images">
+      <img id="imgA" src="images/modern.jpg" alt="风格A">
+      <p id="labelA">现代简约</p>
+
+      <img id="imgB" src="images/nordic.jpg" alt="风格B">
+      <p id="labelB">北欧风</p>
+    </div>
+
+    <div class="buttons">
+      <button class="btn" onclick="choose('A')">选择左边</button>
+      <button class="btn" onclick="choose('B')">选择右边</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const styles = [
+      { name: "现代简约", image: "images/modern.jpg" },
+      { name: "北欧风", image: "images/nordic.jpg" },
+      { name: "新中式", image: "images/new_chinese.jpg" },
+      { name: "法式轻奢", image: "images/french_luxury.jpg" },
+      { name: "美式复古", image: "images/american_vintage.jpg" },
+      { name: "日式侘寂", image: "images/japanese_wabi.jpg" },
+      { name: "工业风", image: "images/industrial.jpg" },
+      { name: "地中海", image: "images/mediterranean.jpg" }
+    ];
+
+    let candidates = [...styles];
+    let currentA, currentB;
+
+    function nextBattle() {
+      if (candidates.length === 1) {
+        document.getElementById('result').innerText = "你最喜欢的风格是：" + candidates[0].name;
+        document.getElementById('imgA').style.display = 'none';
+        document.getElementById('imgB').style.display = 'none';
+        document.getElementById('labelA').style.display = 'none';
+        document.getElementById('labelB').style.display = 'none';
+        document.querySelector('.buttons').style.display = 'none';
+        return;
+      }
+
+      currentA = candidates[0];
+      currentB = candidates[1];
+
+      document.getElementById('imgA').src = currentA.image;
+      document.getElementById('labelA').innerText = currentA.name;
+
+      document.getElementById('imgB').src = currentB.image;
+      document.getElementById('labelB').innerText = currentB.name;
+    }
+
+    function choose(choice) {
+      if (choice === 'A') {
+        candidates.splice(1, 1);
+      } else {
+        candidates.splice(0, 1);
+      }
+      nextBattle();
+    }
+
+    // 初始化第一次对决
+    nextBattle();
+  </script>
+</body>
+</html>
