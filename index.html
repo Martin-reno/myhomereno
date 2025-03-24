@@ -2,44 +2,41 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的装修风格筛选</title>
+    <title>装修风格排除法筛选</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #f7f7f7;
             margin: 0;
             padding: 20px;
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             color: #333;
+            margin-bottom: 30px;
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .card {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
+            transition: transform 0.2s, opacity 0.3s;
+            position: relative;
         }
 
         .card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
         }
 
@@ -52,98 +49,133 @@
             margin: 0 0 10px;
         }
 
-        .btn {
-            display: block;
-            text-align: center;
-            background-color: #4CAF50;
+        .remove-btn {
+            background-color: #ff4d4f;
             color: white;
-            padding: 12px;
-            text-decoration: none;
-            margin: 30px auto;
-            width: 200px;
-            border-radius: 25px;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
-        .btn:hover {
-            background-color: #45a049;
+        .hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .final-style {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
 
-    <h1>选择你喜欢的装修风格</h1>
+<h1>排除法选择你的装修风格</h1>
 
-    <div class="gallery">
-        <div class="card">
-            <img src="images/modern.jpg" alt="现代简约">
-            <div class="card-content">
-                <h2>现代简约</h2>
-                <p>黑白灰为主，强调线条与功能。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/nordic.jpg" alt="北欧风">
-            <div class="card-content">
-                <h2>北欧风</h2>
-                <p>清新自然，浅色木材与温暖灯光。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/chinese.jpg" alt="新中式">
-            <div class="card-content">
-                <h2>新中式</h2>
-                <p>东方元素与现代设计的融合。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/french.jpg" alt="法式轻奢">
-            <div class="card-content">
-                <h2>法式轻奢</h2>
-                <p>优雅精致，细节讲究，金属点缀。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/american.jpg" alt="美式复古">
-            <div class="card-content">
-                <h2>美式复古</h2>
-                <p>大气舒适，深色木材与皮质家具。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/japanese.jpg" alt="日式侘寂">
-            <div class="card-content">
-                <h2>日式侘寂</h2>
-                <p>极简自然，注重静谧与细节。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/industrial.jpg" alt="工业风">
-            <div class="card-content">
-                <h2>工业风</h2>
-                <p>水泥、铁艺、裸露结构，硬朗个性。</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="images/mediterranean.jpg" alt="地中海">
-            <div class="card-content">
-                <h2>地中海</h2>
-                <p>蓝白色调，拱形门洞，清新明亮。</p>
-            </div>
+<div class="gallery" id="gallery">
+    <div class="card" data-style="现代简约">
+        <img src="images/modern.jpg" alt="现代简约">
+        <div class="card-content">
+            <h2>现代简约</h2>
+            <p>黑白灰为主，强调线条与功能。</p>
+            <button class="remove-btn">不喜欢</button>
         </div>
     </div>
 
-    <a href="#" class="btn">马上测一测</a>
+    <div class="card" data-style="北欧风">
+        <img src="images/nordic.jpg" alt="北欧风">
+        <div class="card-content">
+            <h2>北欧风</h2>
+            <p>清新自然，浅色木材与温暖灯光。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+
+    <div class="card" data-style="新中式">
+        <img src="images/chinese.jpg" alt="新中式">
+        <div class="card-content">
+            <h2>新中式</h2>
+            <p>东方元素与现代设计的融合。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+
+    <div class="card" data-style="法式轻奢">
+        <img src="images/french.jpg" alt="法式轻奢">
+        <div class="card-content">
+            <h2>法式轻奢</h2>
+            <p>优雅精致，细节讲究，金属点缀。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+
+    <div class="card" data-style="美式复古">
+        <img src="images/american.jpg" alt="美式复古">
+        <div class="card-content">
+            <h2>美式复古</h2>
+            <p>大气舒适，深色木材与皮质家具。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+
+    <div class="card" data-style="日式侘寂">
+        <img src="images/japanese.jpg" alt="日式侘寂">
+        <div class="card-content">
+            <h2>日式侘寂</h2>
+            <p>极简自然，注重静谧与细节。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+
+    <div class="card" data-style="工业风">
+        <img src="images/industrial.jpg" alt="工业风">
+        <div class="card-content">
+            <h2>工业风</h2>
+            <p>水泥、铁艺、裸露结构，硬朗个性。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+
+    <div class="card" data-style="地中海">
+        <img src="images/mediterranean.jpg" alt="地中海">
+        <div class="card-content">
+            <h2>地中海</h2>
+            <p>蓝白色调，拱形门洞，清新明亮。</p>
+            <button class="remove-btn">不喜欢</button>
+        </div>
+    </div>
+</div>
+
+<div id="result" class="final-style" style="display: none;"></div>
+
+<script>
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    const gallery = document.getElementById('gallery');
+    const resultDiv = document.getElementById('result');
+
+    removeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const card = btn.closest('.card');
+            card.classList.add('hidden');
+
+            // 检查剩下未隐藏的卡片
+            const visibleCards = [...gallery.children].filter(card => !card.classList.contains('hidden'));
+
+            if (visibleCards.length === 1) {
+                const finalStyle = visibleCards[0].getAttribute('data-style');
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = `你的装修风格是：${finalStyle}！`;
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
-
-
