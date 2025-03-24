@@ -1,180 +1,193 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>装修风格排除法筛选</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+  <meta charset="UTF-8">
+  <title>装修风格对比筛选</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
 
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-        }
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    .comparison-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
 
-        .card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.2s, opacity 0.3s;
-            position: relative;
-        }
+    .style-card {
+      background-color: #fff;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
 
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
+    .style-card:hover {
+      transform: translateY(-5px);
+    }
 
-        .card-content {
-            padding: 15px;
-        }
+    .style-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px 10px 0 0;
+    }
 
-        .card-content h2 {
-            font-size: 1.2em;
-            margin: 0 0 10px;
-        }
+    .style-content {
+      padding: 15px;
+    }
 
-        .remove-btn {
-            background-color: #ff4d4f;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+    .style-content h2 {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
 
-        .hidden {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-        }
+    .style-content p {
+      color: #666;
+      font-size: 0.9em;
+    }
 
-        .final-style {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 1.2em;
-            margin-top: 30px;
-        }
-    </style>
+    #result {
+      margin-top: 40px;
+      font-size: 1.5em;
+      color: #4CAF50;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-<h1>排除法选择你的装修风格</h1>
+<h1>通过对比选择你喜欢的装修风格</h1>
 
-<div class="gallery" id="gallery">
-    <div class="card" data-style="现代简约">
-        <img src="images/modern.jpg" alt="现代简约">
-        <div class="card-content">
-            <h2>现代简约</h2>
-            <p>黑白灰为主，强调线条与功能。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="北欧风">
-        <img src="images/nordic.jpg" alt="北欧风">
-        <div class="card-content">
-            <h2>北欧风</h2>
-            <p>清新自然，浅色木材与温暖灯光。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="新中式">
-        <img src="images/chinese.jpg" alt="新中式">
-        <div class="card-content">
-            <h2>新中式</h2>
-            <p>东方元素与现代设计的融合。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="法式轻奢">
-        <img src="images/french.jpg" alt="法式轻奢">
-        <div class="card-content">
-            <h2>法式轻奢</h2>
-            <p>优雅精致，细节讲究，金属点缀。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="美式复古">
-        <img src="images/american.jpg" alt="美式复古">
-        <div class="card-content">
-            <h2>美式复古</h2>
-            <p>大气舒适，深色木材与皮质家具。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="日式侘寂">
-        <img src="images/japanese.jpg" alt="日式侘寂">
-        <div class="card-content">
-            <h2>日式侘寂</h2>
-            <p>极简自然，注重静谧与细节。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="工业风">
-        <img src="images/industrial.jpg" alt="工业风">
-        <div class="card-content">
-            <h2>工业风</h2>
-            <p>水泥、铁艺、裸露结构，硬朗个性。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
-
-    <div class="card" data-style="地中海">
-        <img src="images/mediterranean.jpg" alt="地中海">
-        <div class="card-content">
-            <h2>地中海</h2>
-            <p>蓝白色调，拱形门洞，清新明亮。</p>
-            <button class="remove-btn">不喜欢</button>
-        </div>
-    </div>
+<div class="comparison-container" id="comparison">
+  <!-- 两张对比卡片会放这里 -->
 </div>
 
-<div id="result" class="final-style" style="display: none;"></div>
+<div id="result" class="hidden"></div>
 
 <script>
-    const removeButtons = document.querySelectorAll('.remove-btn');
-    const gallery = document.getElementById('gallery');
-    const resultDiv = document.getElementById('result');
+  // 装修风格数据
+  const styles = [
+    {
+      name: "现代简约",
+      desc: "黑白灰为主，强调线条与功能。",
+      img: "images/modern.jpg"
+    },
+    {
+      name: "北欧风",
+      desc: "清新自然，浅色木材与温暖灯光。",
+      img: "images/nordic.jpg"
+    },
+    {
+      name: "新中式",
+      desc: "东方元素与现代设计的融合。",
+      img: "images/chinese.jpg"
+    },
+    {
+      name: "法式轻奢",
+      desc: "优雅精致，细节讲究，金属点缀。",
+      img: "images/french.jpg"
+    },
+    {
+      name: "美式复古",
+      desc: "大气舒适，深色木材与皮质家具。",
+      img: "images/american.jpg"
+    },
+    {
+      name: "日式侘寂",
+      desc: "极简自然，注重静谧与细节。",
+      img: "images/japanese.jpg"
+    },
+    {
+      name: "工业风",
+      desc: "水泥、铁艺、裸露结构，硬朗个性。",
+      img: "images/industrial.jpg"
+    },
+    {
+      name: "地中海",
+      desc: "蓝白色调，拱形门洞，清新明亮。",
+      img: "images/mediterranean.jpg"
+    }
+  ];
 
-    removeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const card = btn.closest('.card');
-            card.classList.add('hidden');
+  let queue = [...styles]; // 初始化队列
+  let current = null;
 
-            // 检查剩下未隐藏的卡片
-            const visibleCards = [...gallery.children].filter(card => !card.classList.contains('hidden'));
+  const comparisonContainer = document.getElementById("comparison");
+  const resultDiv = document.getElementById("result");
 
-            if (visibleCards.length === 1) {
-                const finalStyle = visibleCards[0].getAttribute('data-style');
-                resultDiv.style.display = 'block';
-                resultDiv.textContent = `你的装修风格是：${finalStyle}！`;
-            }
-        });
-    });
+  // 初始化对比流程
+  function startComparison() {
+    if (queue.length === 1) {
+      showResult(queue[0]);
+      return;
+    }
+
+    // 如果还没有选择，拿前两个
+    const [option1, option2] = queue.slice(0, 2);
+    current = [option1, option2];
+
+    renderComparison(option1, option2);
+  }
+
+  // 渲染两张卡片
+  function renderComparison(style1, style2) {
+    comparisonContainer.innerHTML = `
+      <div class="style-card" onclick="selectStyle(0)">
+        <img src="${style1.img}" alt="${style1.name}">
+        <div class="style-content">
+          <h2>${style1.name}</h2>
+          <p>${style1.desc}</p>
+        </div>
+      </div>
+
+      <div class="style-card" onclick="selectStyle(1)">
+        <img src="${style2.img}" alt="${style2.name}">
+        <div class="style-content">
+          <h2>${style2.name}</h2>
+          <p>${style2.desc}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  // 用户选择更喜欢的风格
+  function selectStyle(index) {
+    const winner = current[index];
+
+    // 把赢家放回队首，移除输的
+    queue = [winner, ...queue.slice(2)];
+
+    startComparison();
+  }
+
+  // 最终展示结果
+  function showResult(style) {
+    comparisonContainer.classList.add("hidden");
+    resultDiv.classList.remove("hidden");
+    resultDiv.innerHTML = `
+      🎉 你最喜欢的装修风格是：<strong>${style.name}</strong>！
+      <br><br>
+      <img src="${style.img}" alt="${style.name}" style="max-width:400px; border-radius:10px;">
+      <p style="color:#555;">${style.desc}</p>
+    `;
+  }
+
+  // 启动
+  startComparison();
 </script>
 
 </body>
