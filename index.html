@@ -4,15 +4,27 @@
   <meta charset="UTF-8">
   <title>装修风格对比筛选</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
       text-align: center;
-      padding: 20px;
+      color: #333;
     }
 
     h1 {
-      color: #333;
+      margin: 40px 20px 10px;
+      font-size: 2em;
+    }
+
+    .sub-title {
+      font-size: 1.1em;
+      color: #777;
       margin-bottom: 30px;
     }
 
@@ -21,59 +33,88 @@
       justify-content: center;
       gap: 40px;
       flex-wrap: wrap;
+      margin: 0 auto;
+      max-width: 1200px;
     }
 
     .style-card {
-      background-color: #fff;
-      width: 300px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
+      background-color: #ffffff;
+      width: 350px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
     }
 
     .style-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     }
 
     .style-card img {
       width: 100%;
-      height: 200px;
+      height: 260px;
       object-fit: cover;
-      border-radius: 10px 10px 0 0;
+      display: block;
     }
 
     .style-content {
-      padding: 15px;
+      padding: 20px 16px;
     }
 
     .style-content h2 {
-      font-size: 1.2em;
-      margin: 10px 0;
+      font-size: 1.4em;
+      margin: 0 0 10px;
     }
 
     .style-content p {
+      font-size: 0.95em;
       color: #666;
-      font-size: 0.9em;
+      margin: 0;
+      line-height: 1.4;
     }
 
     #result {
-      margin-top: 40px;
-      font-size: 1.5em;
+      margin-top: 50px;
+      font-size: 1.6em;
       color: #4CAF50;
+    }
+
+    #result img {
+      margin-top: 20px;
+      max-width: 90%;
+      border-radius: 16px;
     }
 
     .hidden {
       display: none;
     }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .style-card {
+        width: 90%;
+      }
+
+      h1 {
+        font-size: 1.6em;
+      }
+
+      .sub-title {
+        font-size: 1em;
+      }
+    }
+
   </style>
 </head>
 <body>
 
 <h1>通过对比选择你喜欢的装修风格</h1>
+<div class="sub-title">点击你喜欢的风格</div>
 
 <div class="comparison-container" id="comparison">
-  <!-- 两张对比卡片会放这里 -->
+  <!-- 两张风格对比卡片动态生成 -->
 </div>
 
 <div id="result" class="hidden"></div>
@@ -136,7 +177,7 @@
       return;
     }
 
-    // 如果还没有选择，拿前两个
+    // 每轮拿两个
     const [option1, option2] = queue.slice(0, 2);
     current = [option1, option2];
 
@@ -164,31 +205,9 @@
     `;
   }
 
-  // 用户选择更喜欢的风格
+  // 用户选择其中一个
   function selectStyle(index) {
     const winner = current[index];
 
-    // 把赢家放回队首，移除输的
-    queue = [winner, ...queue.slice(2)];
-
-    startComparison();
-  }
-
-  // 最终展示结果
-  function showResult(style) {
-    comparisonContainer.classList.add("hidden");
-    resultDiv.classList.remove("hidden");
-    resultDiv.innerHTML = `
-      🎉 你最喜欢的装修风格是：<strong>${style.name}</strong>！
-      <br><br>
-      <img src="${style.img}" alt="${style.name}" style="max-width:400px; border-radius:10px;">
-      <p style="color:#555;">${style.desc}</p>
-    `;
-  }
-
-  // 启动
-  startComparison();
-</script>
-
-</body>
-</html>
+    // 赢家留，淘汰掉另一个
+    queue = [winner, ...queue
