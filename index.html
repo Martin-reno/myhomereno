@@ -53,11 +53,6 @@
       box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
     }
 
-    .card:active {
-      transform: scale(0.95);
-      background-color: #444;
-    }
-
     .card img {
       width: 100%;
       height: 200px;
@@ -86,14 +81,7 @@
     .result {
       display: none;
       margin-top: 40px;
-      padding: 20px;
-      background: #222;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
-    }
-
-    .result h2 {
-      color: #ffcc00;
+      animation: fadeIn 1s ease-in-out;
     }
 
     .result img {
@@ -107,8 +95,8 @@
     }
 
     .cta button {
-      background-color: #ffcc00;
-      color: #000;
+      background-color: #4CAF50;
+      color: white;
       font-size: 1.5rem;
       padding: 15px 40px;
       border: none;
@@ -118,7 +106,12 @@
     }
 
     .cta button:hover {
-      background-color: #e6b800;
+      background-color: #45a049;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
@@ -129,7 +122,7 @@
   <div class="container" id="selectionContainer"></div>
   
   <div class="result" id="result">
-    <h2>🎉 恭喜你！你选择的风格是 🎉</h2>
+    <h2>🎉 恭喜！你最终选择了</h2>
     <img id="resultImage" src="" alt="最终风格">
     <p id="resultText"></p>
     <div class="cta">
@@ -144,43 +137,46 @@
       { name: "现代简约", img: "./images/modern.jpg", colors: ["#000", "#777", "#fff"] },
       { name: "北欧风", img: "./images/nordic.jpg", colors: ["#e6d5b8", "#f5f5f5", "#d8a474"] },
       { name: "新中式", img: "./images/chinese.jpg", colors: ["#603813", "#c69c6d", "#f5f5dc"] },
-      { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"] }
+      { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"] },
+      { name: "美式复古", img: "./images/american.jpg", colors: ["#8b5a2b", "#b87333", "#f5f5dc"] },
+      { name: "日式侘寂", img: "./images/japanese.jpg", colors: ["#a6a399", "#dcd7c9", "#f5f5f5"] },
+      { name: "工业风", img: "./images/industrial.jpg", colors: ["#2e2e2e", "#555", "#999"] },
+      { name: "地中海", img: "./images/mediterranean.jpg", colors: ["#0073e6", "#f5f5dc", "#ffffff"] }
     ];
 
-    function renderOptions(pairs) {
+    function renderOptions() {
       let container = document.getElementById("selectionContainer");
       container.innerHTML = "";
-      if (pairs.length === 1) {
-        showResult(pairs[0]);
+      if (styles.length === 1) {
+        showResult(styles[0]);
         return;
       }
       
-      pairs.forEach((pair, index) => {
-        let div = document.createElement("div");
-        div.className = "pair";
-        div.innerHTML = pair.map(style => `
-          <div class="card" onclick="nextStep(${index}, '${style.name}', '${style.img}')">
-            <img src="${style.img}" alt="${style.name}">
-            <div class="card-title">${style.name}</div>
-            <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
-          </div>
-        `).join('');
-        container.appendChild(div);
-      });
+      let [option1, option2] = styles.splice(0, 2);
+      let div = document.createElement("div");
+      div.className = "pair";
+      div.innerHTML = [option1, option2].map(style => `
+        <div class="card" onclick="selectStyle('${style.name}', '${style.img}', ${JSON.stringify(style.colors)})">
+          <img src="${style.img}" alt="${style.name}">
+          <div class="card-title">${style.name}</div>
+          <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
+        </div>
+      `).join('');
+      container.appendChild(div);
     }
 
-    function nextStep(index, name, img) {
-      styles = [[{ name, img, colors: styles[index][0].colors }]];
-      renderOptions(styles);
+    function selectStyle(name, img, colors) {
+      styles.unshift({ name, img, colors });
+      renderOptions();
     }
 
     function showResult(finalStyle) {
       document.getElementById("result").style.display = "block";
       document.getElementById("resultImage").src = finalStyle.img;
-      document.getElementById("resultText").innerText = `你最终选择了 ${finalStyle.name}`;
+      document.getElementById("resultText").innerText = `🎉 你最终选择了 ${finalStyle.name}`;
     }
 
-    renderOptions([styles.slice(0, 2), styles.slice(2, 4)]);
+    renderOptions();
   </script>
 </body>
 </html>
