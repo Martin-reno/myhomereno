@@ -9,8 +9,8 @@
       font-family: "微软雅黑", sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f8f8f8;
-      color: #333;
+      background-color: #000;
+      color: #fff;
       text-align: center;
     }
 
@@ -21,20 +21,27 @@
 
     p.description {
       font-size: 1.2rem;
-      color: #777;
+      color: #bbb;
       margin-bottom: 40px;
     }
 
     .container {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pair {
+      display: flex;
       gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
     }
 
     .card {
-      background: #fff;
+      background: #222;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
@@ -43,7 +50,12 @@
 
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .card:active {
+      transform: scale(0.95);
+      background-color: #444;
     }
 
     .card img {
@@ -74,12 +86,20 @@
     .result {
       display: none;
       margin-top: 40px;
+      padding: 20px;
+      background: #222;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .result h2 {
+      color: #ffcc00;
     }
 
     .result img {
       width: 300px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
     }
 
     .cta {
@@ -87,8 +107,8 @@
     }
 
     .cta button {
-      background-color: #4CAF50;
-      color: white;
+      background-color: #ffcc00;
+      color: #000;
       font-size: 1.5rem;
       padding: 15px 40px;
       border: none;
@@ -98,7 +118,7 @@
     }
 
     .cta button:hover {
-      background-color: #45a049;
+      background-color: #e6b800;
     }
   </style>
 </head>
@@ -109,7 +129,7 @@
   <div class="container" id="selectionContainer"></div>
   
   <div class="result" id="result">
-    <h2>你的最终选择</h2>
+    <h2>🎉 恭喜你！你选择的风格是 🎉</h2>
     <img id="resultImage" src="" alt="最终风格">
     <p id="resultText"></p>
     <div class="cta">
@@ -124,33 +144,34 @@
       { name: "现代简约", img: "./images/modern.jpg", colors: ["#000", "#777", "#fff"] },
       { name: "北欧风", img: "./images/nordic.jpg", colors: ["#e6d5b8", "#f5f5f5", "#d8a474"] },
       { name: "新中式", img: "./images/chinese.jpg", colors: ["#603813", "#c69c6d", "#f5f5dc"] },
-      { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"] },
-      { name: "美式复古", img: "./images/american.jpg", colors: ["#8b5a2b", "#b87333", "#f5f5dc"] },
-      { name: "日式侘寂", img: "./images/japanese.jpg", colors: ["#a6a399", "#dcd7c9", "#f5f5f5"] },
-      { name: "工业风", img: "./images/industrial.jpg", colors: ["#2e2e2e", "#555", "#999"] },
-      { name: "地中海", img: "./images/mediterranean.jpg", colors: ["#0073e6", "#f5f5dc", "#ffffff"] }
+      { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"] }
     ];
 
-    function nextStep(options) {
-      if (options.length === 1) {
-        showResult(options[0]);
+    function renderOptions(pairs) {
+      let container = document.getElementById("selectionContainer");
+      container.innerHTML = "";
+      if (pairs.length === 1) {
+        showResult(pairs[0]);
         return;
       }
       
-      let container = document.getElementById("selectionContainer");
-      container.innerHTML = "";
-      let pair = options.splice(0, 2);
-      
-      let div = document.createElement("div");
-      div.className = "container";
-      div.innerHTML = pair.map(style => `
-        <div class="card" onclick='nextStep([${JSON.stringify(style)}].concat(${JSON.stringify(options)}))'>
-          <img src="${style.img}" alt="${style.name}">
-          <div class="card-title">${style.name}</div>
-          <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
-        </div>
-      `).join('');
-      container.appendChild(div);
+      pairs.forEach((pair, index) => {
+        let div = document.createElement("div");
+        div.className = "pair";
+        div.innerHTML = pair.map(style => `
+          <div class="card" onclick="nextStep(${index}, '${style.name}', '${style.img}')">
+            <img src="${style.img}" alt="${style.name}">
+            <div class="card-title">${style.name}</div>
+            <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
+          </div>
+        `).join('');
+        container.appendChild(div);
+      });
+    }
+
+    function nextStep(index, name, img) {
+      styles = [[{ name, img, colors: styles[index][0].colors }]];
+      renderOptions(styles);
     }
 
     function showResult(finalStyle) {
@@ -159,8 +180,7 @@
       document.getElementById("resultText").innerText = `你最终选择了 ${finalStyle.name}`;
     }
 
-    nextStep(styles);
+    renderOptions([styles.slice(0, 2), styles.slice(2, 4)]);
   </script>
 </body>
 </html>
-
