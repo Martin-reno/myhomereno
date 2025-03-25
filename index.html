@@ -151,11 +151,17 @@
         showResult(styles[0]);
         return;
       }
-      
-      let [option1, option2] = styles.splice(0, 2);
+      let pair = styles.splice(0, 2);
+      setTimeout(() => {
+        renderPair(pair);
+      }, 300);
+    }
+
+    function renderPair(pair) {
+      let container = document.getElementById("selectionContainer");
       let div = document.createElement("div");
       div.className = "pair";
-      div.innerHTML = [option1, option2].map(style => `
+      div.innerHTML = pair.map(style => `
         <div class="card" onclick="selectStyle('${style.name}', '${style.img}', ${JSON.stringify(style.colors)})">
           <img src="${style.img}" alt="${style.name}">
           <div class="card-title">${style.name}</div>
