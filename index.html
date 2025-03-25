@@ -71,7 +71,7 @@
     }
 
     .cta button {
-      background-color: #25D366; /* WhatsApp 绿色 */
+      background-color: #4CAF50;
       color: white;
       font-size: 1.5rem;
       padding: 15px 40px;
@@ -82,26 +82,10 @@
     }
 
     .cta button:hover {
-      background-color: #1EBE57;
+      background-color: #45a049;
     }
 
-    .footer {
-      background-color: #333;
-      color: #fff;
-      padding: 20px 0;
-      font-size: 1rem;
-    }
-
-    .footer a {
-      color: #25D366;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
+    /* 响应式 */
     @media (max-width: 768px) {
       .card {
         width: 90%;
@@ -109,11 +93,6 @@
 
       h1 {
         font-size: 2rem;
-      }
-
-      .cta button {
-        font-size: 1.2rem;
-        padding: 12px 30px;
       }
     }
   </style>
@@ -152,5 +131,50 @@
       <img src="./images/american.jpg" alt="美式复古">
       <div class="card-title">美式复古</div>
       <div class="card-description">大气舒适，深色木材与皮质家具。</div>
-    </div
+    </div>
+
+    <div class="card" onclick="selectStyle('日式侘寂')">
+      <img src="./images/japanese.jpg" alt="日式侘寂">
+      <div class="card-title">日式侘寂</div>
+      <div class="card-description">极简自然，注重静谧与细节。</div>
+    </div>
+
+    <div class="card" onclick="selectStyle('工业风')">
+      <img src="./images/industrial.jpg" alt="工业风">
+      <div class="card-title">工业风</div>
+      <div class="card-description">水泥、铁艺、裸露结构，硬朗个性。</div>
+    </div>
+
+    <div class="card" onclick="selectStyle('地中海')">
+      <img src="./images/mediterranean.jpg" alt="地中海">
+      <div class="card-title">地中海</div>
+      <div class="card-description">蓝白色调，拱形门洞，清新明亮。</div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <button onclick="goTest()">马上测一测</button>
+  </div>
+
+  <script>
+    let selectedStyle = '';
+
+    function selectStyle(style) {
+      selectedStyle = style;
+      alert("你选择了：" + style);
+    }
+
+    function goTest() {
+      if (selectedStyle === '') {
+        alert('请先选择一种装修风格！');
+      } else {
+        alert('你最终选择的是 ' + selectedStyle + '，接下来进入测评！');
+        // 这里可以跳转测评页面
+        // window.location.href = 'nextpage.html';
+      }
+    }
+  </script>
+</body>
+</html>
+
 
