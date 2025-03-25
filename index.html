@@ -7,104 +7,148 @@
   <style>
     body {
       font-family: "微软雅黑", sans-serif;
-      text-align: center;
+      margin: 0;
+      padding: 0;
       background-color: #f8f8f8;
+      color: #333;
+      text-align: center;
     }
+
     h1 {
-      font-size: 2rem;
-      margin: 20px;
+      font-size: 2.5rem;
+      margin: 30px 0 10px;
     }
+
+    p.description {
+      font-size: 1.2rem;
+      color: #777;
+      margin-bottom: 40px;
+    }
+
     .container {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
+
     .card {
       background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
       width: 300px;
-      transition: 0.3s;
+      padding-bottom: 15px;
     }
+
     .card:hover {
-      transform: scale(1.05);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
+
     .card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
     }
+
     .card-title {
-      font-size: 1.2rem;
-      padding: 10px;
+      font-size: 1.5rem;
+      margin: 15px 0 5px;
     }
+
+    .card-description {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .color-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .color-box {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
     .cta {
-      margin-top: 30px;
+      margin: 50px 0;
     }
+
     .cta button {
-      padding: 10px 20px;
-      font-size: 1.2rem;
       background-color: #4CAF50;
       color: white;
+      font-size: 1.5rem;
+      padding: 15px 40px;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
+
     .cta button:hover {
       background-color: #45a049;
     }
   </style>
 </head>
+
 <body>
-  <h1>请选择你更喜欢的装修风格</h1>
-  <div class="container" id="styleContainer"></div>
-  <div class="cta" id="finalCTA" style="display: none;">
-    <h2>你最终喜欢的风格是：<span id="finalChoice"></span></h2>
-    <button onclick="contactWhatsApp()">立即咨询</button>
+  <h1>通过对比选择你喜欢的装修风格</h1>
+  <p class="description">点击你喜欢的风格</p>
+
+  <div class="container">
+    <div class="card" onclick="selectStyle('现代简约')">
+      <img src="./images/modern.jpg" alt="现代简约">
+      <div class="card-title">现代简约</div>
+      <div class="card-description">黑白灰为主，强调线条与功能。</div>
+      <div class="color-container">
+        <div class="color-box" style="background-color: black;"></div>
+        <div class="color-box" style="background-color: white;"></div>
+        <div class="color-box" style="background-color: gray;"></div>
+      </div>
+    </div>
+
+    <div class="card" onclick="selectStyle('北欧风')">
+      <img src="./images/nordic.jpg" alt="北欧风">
+      <div class="card-title">北欧风</div>
+      <div class="card-description">清新自然，浅色木材与温暖灯光。</div>
+      <div class="color-container">
+        <div class="color-box" style="background-color: #f5f5dc;"></div>
+        <div class="color-box" style="background-color: #d8b384;"></div>
+        <div class="color-box" style="background-color: #fffaf0;"></div>
+      </div>
+    </div>
   </div>
+
+  <div class="cta">
+    <button onclick="goTest()">马上测一测</button>
+  </div>
+
   <script>
-    const styles = [
-      { name: "现代简约", img: "./images/modern.jpg" },
-      { name: "北欧风", img: "./images/nordic.jpg" },
-      { name: "新中式", img: "./images/chinese.jpg" },
-      { name: "法式轻奢", img: "./images/french.jpg" },
-      { name: "美式复古", img: "./images/american.jpg" },
-      { name: "日式侘寂", img: "./images/japanese.jpg" },
-      { name: "工业风", img: "./images/industrial.jpg" },
-      { name: "地中海", img: "./images/mediterranean.jpg" }
-    ];
-    
-    function renderPair(options) {
-      if (options.length === 1) {
-        document.getElementById("styleContainer").style.display = "none";
-        document.getElementById("finalChoice").textContent = options[0].name;
-        document.getElementById("finalCTA").style.display = "block";
-        return;
+    let selectedStyle = '';
+
+    function selectStyle(style) {
+      selectedStyle = style;
+      alert("你选择了：" + style);
+    }
+
+    function goTest() {
+      if (selectedStyle === '') {
+        alert('请先选择一种装修风格！');
+      } else {
+        alert('你最终选择的是 ' + selectedStyle + '，接下来进入测评！');
       }
-      
-      const container = document.getElementById("styleContainer");
-      container.innerHTML = "";
-      
-      const pair = options.splice(0, 2);
-      pair.forEach(style => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = `
-          <img src="${style.img}" alt="${style.name}">
-          <div class="card-title">${style.name}</div>
-        `;
-        card.onclick = () => renderPair([...options, style]);
-        container.appendChild(card);
-      });
     }
-    
-    function contactWhatsApp() {
-      window.location.href = "https://wa.me/60187863288";
-    }
-    
-    renderPair([...styles]);
   </script>
 </body>
 </html>
