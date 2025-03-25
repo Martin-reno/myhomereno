@@ -27,15 +27,8 @@
 
     .container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .pair {
-      display: flex;
-      gap: 20px;
       justify-content: center;
-      margin-bottom: 30px;
+      gap: 20px;
     }
 
     .card {
@@ -76,12 +69,6 @@
       height: 20px;
       border-radius: 50%;
       border: 1px solid #ccc;
-    }
-
-    .card-description {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 15px;
     }
 
     .result {
@@ -144,31 +131,26 @@
       { name: "地中海", img: "./images/mediterranean.jpg", colors: ["#0073e6", "#f5f5dc", "#ffffff"] }
     ];
 
-    function renderOptions(pairs) {
-      let container = document.getElementById("selectionContainer");
-      container.innerHTML = "";
-      if (pairs.length === 1) {
-        showResult(pairs[0]);
+    function nextStep(options) {
+      if (options.length === 1) {
+        showResult(options[0]);
         return;
       }
       
-      pairs.forEach((pair, index) => {
-        let div = document.createElement("div");
-        div.className = "pair";
-        div.innerHTML = pair.map(style => `
-          <div class="card" onclick="nextStep(${index}, '${style.name}', '${style.img}')">
-            <img src="${style.img}" alt="${style.name}">
-            <div class="card-title">${style.name}</div>
-            <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
-          </div>
-        `).join('');
-        container.appendChild(div);
-      });
-    }
-
-    function nextStep(index, name, img) {
-      styles = [[{ name, img, colors: styles[index][0].colors }]];
-      renderOptions(styles);
+      let container = document.getElementById("selectionContainer");
+      container.innerHTML = "";
+      let pair = options.splice(0, 2);
+      
+      let div = document.createElement("div");
+      div.className = "container";
+      div.innerHTML = pair.map(style => `
+        <div class="card" onclick='nextStep([${JSON.stringify(style)}].concat(${JSON.stringify(options)}))'>
+          <img src="${style.img}" alt="${style.name}">
+          <div class="card-title">${style.name}</div>
+          <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
+        </div>
+      `).join('');
+      container.appendChild(div);
     }
 
     function showResult(finalStyle) {
@@ -177,7 +159,8 @@
       document.getElementById("resultText").innerText = `你最终选择了 ${finalStyle.name}`;
     }
 
-    renderOptions([styles.slice(0, 2), styles.slice(2, 4)]);
+    nextStep(styles);
   </script>
 </body>
 </html>
+
