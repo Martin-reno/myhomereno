@@ -27,15 +27,10 @@
 
     .container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .pair {
-      display: flex;
-      gap: 20px;
+      flex-direction: row;
       justify-content: center;
-      margin-bottom: 30px;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .card {
@@ -151,7 +146,7 @@
         showResult(styles[0]);
         return;
       }
-      let pair = styles.slice(0, 2);
+      let pair = styles.splice(0, 2);
       container.innerHTML = pair.map(style => `
         <div class="card" onclick="selectStyle('${style.name}')">
           <img src="${style.img}" alt="${style.name}">
@@ -162,7 +157,7 @@
     }
 
     function selectStyle(name) {
-      styles = styles.filter(style => style.name === name);
+      styles = styles.filter(style => style.name === name).concat(styles);
       renderOptions();
     }
 
@@ -176,3 +171,4 @@
   </script>
 </body>
 </html>
+
