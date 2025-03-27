@@ -151,28 +151,18 @@
         showResult(styles[0]);
         return;
       }
-      let pair = styles.splice(0, 2);
-      setTimeout(() => {
-        renderPair(pair);
-      }, 300);
-    }
-
-    function renderPair(pair) {
-      let container = document.getElementById("selectionContainer");
-      let div = document.createElement("div");
-      div.className = "pair";
-      div.innerHTML = pair.map(style => `
-        <div class="card" onclick="selectStyle('${style.name}', '${style.img}', ${JSON.stringify(style.colors)})">
+      let pair = styles.slice(0, 2);
+      container.innerHTML = pair.map(style => `
+        <div class="card" onclick="selectStyle('${style.name}')">
           <img src="${style.img}" alt="${style.name}">
           <div class="card-title">${style.name}</div>
           <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
         </div>
       `).join('');
-      container.appendChild(div);
     }
 
-    function selectStyle(name, img, colors) {
-      styles.unshift({ name, img, colors });
+    function selectStyle(name) {
+      styles = styles.filter(style => style.name === name);
       renderOptions();
     }
 
