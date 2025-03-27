@@ -27,7 +27,6 @@
 
     .container {
       display: flex;
-      flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
       margin-bottom: 30px;
@@ -79,12 +78,6 @@
       animation: fadeIn 1s ease-in-out;
     }
 
-    .result img {
-      width: 300px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-    }
-
     .cta {
       margin: 20px 0;
     }
@@ -130,30 +123,37 @@
 
   <script>
     let styles = [
-      { name: "现代简约", img: "./images/modern.jpg", colors: ["#000", "#777", "#fff"], desc: "现代简约风格强调功能性与极简设计，注重空间利用与流畅感。" },
-      { name: "北欧风", img: "./images/nordic.jpg", colors: ["#e6d5b8", "#f5f5f5", "#d8a474"], desc: "北欧风以自然、简洁、舒适为特点，广泛运用木材与温暖色调。" },
-      { name: "新中式", img: "./images/chinese.jpg", colors: ["#603813", "#c69c6d", "#f5f5dc"], desc: "新中式融合了传统与现代，展现沉稳与雅致的空间美学。" },
-      { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"], desc: "法式轻奢风格优雅大方，强调精致与高端的家居氛围。" },
-      { name: "美式复古", img: "./images/american.jpg", colors: ["#8b5a2b", "#b87333", "#f5f5dc"], desc: "美式复古风格融合自由与经典元素，强调温馨与怀旧感。" },
-      { name: "日式侘寂", img: "./images/japanese.jpg", colors: ["#a6a399", "#dcd7c9", "#f5f5f5"], desc: "日式侘寂风格追求简约、自然与宁静的生活方式。" },
-      { name: "工业风", img: "./images/industrial.jpg", colors: ["#2e2e2e", "#555", "#999"], desc: "工业风格强调原始质感与个性，采用金属与水泥等材质。" },
-      { name: "地中海", img: "./images/mediterranean.jpg", colors: ["#0073e6", "#f5f5dc", "#ffffff"], desc: "地中海风格色彩明亮，充满海洋风情，营造度假氛围。" }
+      { name: "现代简约", img: "./images/modern.jpg", desc: "现代简约风格强调功能性与极简设计，注重空间利用与流畅感。" },
+      { name: "北欧风", img: "./images/nordic.jpg", desc: "北欧风以自然、简洁、舒适为特点，广泛运用木材与温暖色调。" },
+      { name: "新中式", img: "./images/chinese.jpg", desc: "新中式融合了传统与现代，展现沉稳与雅致的空间美学。" },
+      { name: "法式轻奢", img: "./images/french.jpg", desc: "法式轻奢风格优雅大方，强调精致与高端的家居氛围。" }
     ];
 
     function renderOptions() {
       let container = document.getElementById("selectionContainer");
-      container.innerHTML = styles.map(style => `
-        <div class="card" onclick="selectStyle('${style.name}')">
-          <img src="${style.img}" alt="${style.name}">
-          <div class="card-title">${style.name}</div>
-          <div class="color-box">${style.colors.map(color => `<div class='color' style='background:${color}'></div>`).join('')}</div>
-        </div>
-      `).join('');
+      container.innerHTML = '';
+      if (styles.length > 1) {
+        for (let i = 0; i < styles.length; i += 2) {
+          container.innerHTML += `
+            <div class="card" onclick="selectStyle(${i})">
+              <img src="${styles[i].img}" alt="${styles[i].name}">
+              <div class="card-title">${styles[i].name}</div>
+            </div>
+            ${styles[i + 1] ? `
+            <div class="card" onclick="selectStyle(${i + 1})">
+              <img src="${styles[i + 1].img}" alt="${styles[i + 1].name}">
+              <div class="card-title">${styles[i + 1].name}</div>
+            </div>` : ''}
+          `;
+        }
+      } else {
+        showResult(styles[0]);
+      }
     }
 
-    function selectStyle(name) {
-      let selectedStyle = styles.find(style => style.name === name);
-      showResult(selectedStyle);
+    function selectStyle(index) {
+      styles = [styles[index]];
+      renderOptions();
     }
 
     function showResult(finalStyle) {
