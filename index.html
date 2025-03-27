@@ -111,7 +111,7 @@
 </head>
 <body>
   <h1>通过对比选择你喜欢的装修风格</h1>
-  <p class="description">在每轮对比中，选择你更喜欢的风格</p>
+  <p class="description">点击你喜欢的风格</p>
   
   <div class="container" id="selectionContainer"></div>
   
@@ -134,36 +134,40 @@
       { name: "新中式", img: "./images/chinese.jpg", colors: ["#603813", "#c69c6d", "#f5f5dc"], desc: "新中式融合了传统与现代，展现沉稳与雅致的空间美学。" },
       { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"], desc: "法式轻奢风格优雅大方，强调精致与高端的家居氛围。" },
       { name: "美式复古", img: "./images/american.jpg", colors: ["#8b5a2b", "#b87333", "#f5f5dc"], desc: "美式复古风格融合自由与经典元素，强调温馨与怀旧感。" },
-      { name: "日式侘寂", img: "./images/japanese.jpg", colors: ["#a6a399", "#dcd7c9", "#f5f5f5"], desc: "日式侘寂风格追求简约、自然与宁静的生活方式。" },
-      { name: "工业风", img: "./images/industrial.jpg", colors: ["#2e2e2e", "#555", "#999"], desc: "工业风格强调原始质感与个性，采用金属与水泥等材质。" },
-      { name: "地中海", img: "./images/mediterranean.jpg", colors: ["#0073e6", "#f5f5dc", "#ffffff"], desc: "地中海风格色彩明亮，充满海洋风情，营造度假氛围。" }
+      { name: "日式侘寂", img: "./images/japanese.jpg", colors: ["#a6a399", "#dcd7c9", "#f5f5f5"], desc: "日式侘寂风格追求简约、自然与宁静的生活方式。" }
     ];
 
-    function nextRound() {
+    function showComparison() {
       if (styles.length === 1) {
         showResult(styles[0]);
         return;
       }
-      let pair = styles.splice(0, 2);
-      renderOptions(pair);
-    }
-
-    function renderOptions(pair) {
-      let container = document.getElementById("selectionContainer");
-      container.innerHTML = pair.map(style => `
-        <div class="card" onclick="selectStyle('${style.name}')">
-          <img src="${style.img}" alt="${style.name}">
-          <div class="card-title">${style.name}</div>
+      let [styleA, styleB] = styles.splice(0, 2);
+      document.getElementById("selectionContainer").innerHTML = `
+        <div class="card" onclick="selectStyle(${JSON.stringify(styleA)})">
+          <img src="${styleA.img}" alt="${styleA.name}">
+          <div class="card-title">${styleA.name}</div>
         </div>
-      `).join('');
+        <div class="card" onclick="selectStyle(${JSON.stringify(styleB)})">
+          <img src="${styleB.img}" alt="${styleB.name}">
+          <div class="card-title">${styleB.name}</div>
+        </div>
+      `;
     }
 
-    function selectStyle(name) {
-      styles.push(styles.find(style => style.name === name));
-      nextRound();
+    function selectStyle(style) {
+      styles.push(style);
+      showComparison();
     }
 
-    nextRound();
+    function showResult(finalStyle) {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("resultImage").src = finalStyle.img;
+      document.getElementById("resultText").innerText = `🎉 你最终选择了 ${finalStyle.name}`;
+      document.getElementById("resultDescription").innerText = finalStyle.desc;
+    }
+
+    showComparison();
   </script>
 </body>
 </html>
