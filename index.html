@@ -58,20 +58,6 @@
       margin: 15px 0 5px;
     }
 
-    .color-box {
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-      margin-bottom: 10px;
-    }
-
-    .color {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 1px solid #ccc;
-    }
-
     .result {
       display: none;
       margin-top: 40px;
@@ -113,7 +99,6 @@
     <h2>🎉 恭喜！你最终选择了</h2>
     <img id="resultImage" src="" alt="最终风格">
     <p id="resultText"></p>
-    <p id="resultDescription"></p>
     <div class="cta">
       <a href="https://wa.me/60187863288" target="_blank">
         <button>WhatsApp 咨询</button>
@@ -123,14 +108,14 @@
 
   <script>
     let styles = [
-      { name: "现代简约", img: "./images/modern.jpg", colors: ["#000", "#777", "#fff"], desc: "现代简约风格强调功能性与极简设计，注重空间利用与流畅感。" },
-      { name: "北欧风", img: "./images/nordic.jpg", colors: ["#e6d5b8", "#f5f5f5", "#d8a474"], desc: "北欧风以自然、简洁、舒适为特点，广泛运用木材与温暖色调。" },
-      { name: "新中式", img: "./images/chinese.jpg", colors: ["#603813", "#c69c6d", "#f5f5dc"], desc: "新中式融合了传统与现代，展现沉稳与雅致的空间美学。" },
-      { name: "法式轻奢", img: "./images/french.jpg", colors: ["#f4e1d2", "#d4af37", "#fff"], desc: "法式轻奢风格优雅大方，强调精致与高端的家居氛围。" },
-      { name: "美式复古", img: "./images/american.jpg", colors: ["#8B4513", "#FFD700", "#FFF8DC"], desc: "美式复古风格追求怀旧与自由，厚重的家具和温暖的色调是其标志。" },
-      { name: "日式侘寂", img: "./images/japanese.jpg", colors: ["#A9A9A9", "#DCDCDC", "#F5F5DC"], desc: "日式侘寂风格注重自然元素，展现极简与宁静的空间氛围。" },
-      { name: "工业风", img: "./images/industrial.jpg", colors: ["#2F4F4F", "#696969", "#BEBEBE"], desc: "工业风格以裸露的结构与金属元素为特点，呈现出独特的现代感。" },
-      { name: "地中海", img: "./images/mediterranean.jpg", colors: ["#006994", "#FFD700", "#F4A460"], desc: "地中海风格具有浓厚的异域风情，以蓝白色调为主，搭配天然材质。" }
+      { name: "现代简约", img: "./images/modern.jpg" },
+      { name: "北欧风", img: "./images/nordic.jpg" },
+      { name: "新中式", img: "./images/chinese.jpg" },
+      { name: "法式轻奢", img: "./images/french.jpg" },
+      { name: "美式复古", img: "./images/american.jpg" },
+      { name: "日式侘寂", img: "./images/japanese.jpg" },
+      { name: "工业风", img: "./images/industrial.jpg" },
+      { name: "地中海", img: "./images/mediterranean.jpg" }
     ];
     
     function showComparison() {
@@ -160,7 +145,6 @@
       document.getElementById("result").style.display = "block";
       document.getElementById("resultImage").src = finalStyle.img;
       document.getElementById("resultText").innerText = `🎉 你最终选择了 ${finalStyle.name}`;
-      document.getElementById("resultDescription").innerText = finalStyle.desc;
     }
 
     showComparison();
