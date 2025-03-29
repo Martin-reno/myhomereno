@@ -123,25 +123,27 @@
         showResult(styles[0]);
         return;
       }
-      let [styleA, styleB] = styles.splice(0, 2);
+      let [styleA, styleB, ...remaining] = styles;
+      styles = remaining;
       document.getElementById("selectionContainer").innerHTML = `
-        <div class="card" onclick="selectStyle('${styleA.name}')">
+        <div class="card" onclick="selectStyle('${styleA.name}', '${styleA.img}')">
           <img src="${styleA.img}" alt="${styleA.name}">
           <div class="card-title">${styleA.name}</div>
         </div>
-        <div class="card" onclick="selectStyle('${styleB.name}')">
+        <div class="card" onclick="selectStyle('${styleB.name}', '${styleB.img}')">
           <img src="${styleB.img}" alt="${styleB.name}">
           <div class="card-title">${styleB.name}</div>
         </div>
       `;
     }
 
-    function selectStyle(styleName) {
-      styles = styles.filter(s => s.name === styleName);
+    function selectStyle(styleName, styleImg) {
+      styles.unshift({ name: styleName, img: styleImg });
       showComparison();
     }
 
     function showResult(finalStyle) {
+      document.getElementById("selectionContainer").style.display = "none";
       document.getElementById("result").style.display = "block";
       document.getElementById("resultImage").src = finalStyle.img;
       document.getElementById("resultText").innerText = `🎉 你最终选择了 ${finalStyle.name}`;
@@ -151,3 +153,5 @@
   </script>
 </body>
 </html>
+
+
